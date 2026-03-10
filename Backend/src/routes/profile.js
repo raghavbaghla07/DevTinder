@@ -6,15 +6,19 @@ const { validateEditProfileData } = require("../utils/validation.js")
 profileRouter.get("/profile/view", userAuth, async (req, res) => {
     try {
         const user = req.user;
-        res.send(user);
+        res.json({
+            data: user
+        });
     } catch (err) {
-        res.status(400).send("ERROR: " + err.message);
+        res.status(400).json({
+            error: err.message
+        });
     }
 })
 profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
     try {
         if (!validateEditProfileData(req))
-            throw new Error("invalid edit request")
+            throw new Error("Invalid profile update request");
 
         const loggedInUser = req.user
         Object.keys(req.body).forEach((key) => (loggedInUser[key] = req.body[key]));
@@ -26,7 +30,9 @@ profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
             data: loggedInUser
         })
     } catch (err) {
-        res.status(400).send("ERROR " + err.message)
+        res.status(400).json({
+            error: err.message
+        });
     }
 
 })

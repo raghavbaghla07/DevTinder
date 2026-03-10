@@ -26,7 +26,9 @@ authRouter.post("/signup", async (req, res) => {
         });
 
         await user.save();
-        res.send("user added successfully")
+        res.status(201).json({
+            message: "User registered successfully"
+        });
 
     } catch (err) {
         res.status(400).json({
@@ -57,19 +59,21 @@ authRouter.post("/login", async (req, res) => {
                 sameSite: "None",
                 path: "/"
             });
-            res.send("user login successful");
+            res.json({
+                message: "Login successful"
+            });
         } else
             throw new Error("invalid credentials")
     } catch (err) {
 
-        res.status(400).send("ERROR: " + err.message);
+        res.status(400).json({
+            error: err.message
+        });
     }
 })
 
 authRouter.post("/logout", async (req, res) => {
-    res.cookie("token", null, {
-        expires: new Date(Date.now()),
-    })
+    res.clearCookie("token");
     res.json({
         message: "Logout successful"
     });

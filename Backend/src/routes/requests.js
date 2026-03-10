@@ -1,7 +1,6 @@
 const express = require("express");
 const requestRouter = express.Router();
 const { userAuth } = require("../middlewares/auth.js")
-console.log("userAuth type:", typeof userAuth);
 
 const ConnectionRequest = require("../models/connectionRequest.js");
 const User = require("../models/user.js");
@@ -37,9 +36,9 @@ requestRouter.post("/request/send/:status/:toUserId", userAuth, async (req, res)
             ]
         })
         if (existingConnectionRequest)
-            return res
-                .status(400)
-                .send({ message: "Connection request already exist!!" })
+            return res.status(400).json({
+                message: "Connection request already exists"
+            });
 
         const connectionRequest = new ConnectionRequest({
             fromUserId,
@@ -49,13 +48,15 @@ requestRouter.post("/request/send/:status/:toUserId", userAuth, async (req, res)
 
         const data = await connectionRequest.save();
         res.json({
-            message: "connection request sent successfully",
+            message: "Connection request sent successfully",
             data,
 
         })
     } catch (err) {
         console.log(err)
-        res.status(404).send("ERROR: " + err.message)
+        res.status(500).json({
+            error: err.message
+        })
     }
 })
 
