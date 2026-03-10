@@ -47,7 +47,7 @@ const userSchema = new mongoose.Schema({
     },
     age: {
         type: Number,
-        min: 18,
+        min: [18, "User must be at least 18 years old"]
     },
     photoUrl: {
         type: String,

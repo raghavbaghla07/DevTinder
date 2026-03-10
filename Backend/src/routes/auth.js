@@ -3,7 +3,7 @@ const authRouter = express.Router()
 const { validationSignUpData } = require("../utils/validation.js")
 const User = require("../models/user.js")
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+
 
 authRouter.post("/signup", async (req, res) => {
     try {
@@ -27,8 +27,11 @@ authRouter.post("/signup", async (req, res) => {
 
         await user.save();
         res.send("user added successfully")
+
     } catch (err) {
-        res.status(400).send("ERROR: " + err.message);
+        res.status(400).json({
+            error: err.message
+        });
     }
 })
 
@@ -38,13 +41,22 @@ authRouter.post("/login", async (req, res) => {
         const { emailId, password } = req.body;
 
         //*check if user is present in database?
-        const user = await User.findOne({ emailId: emailId })
+        const user = await User.findOne({ emailId: emailId }).select("+password");
+
         if (!user)
             throw new Error("invalid credentials");
+
         const isPasswordValid = await user.validatePassword(password);
+
         if (isPasswordValid) {
             const token = await user.getJWT();
-            res.cookie("token", token)
+
+            res.cookie("token", token, {
+                httpOnly: true,
+                secure: true,
+                sameSite: "None",
+                path: "/"
+            });
             res.send("user login successful");
         } else
             throw new Error("invalid credentials")
@@ -58,7 +70,9 @@ authRouter.post("/logout", async (req, res) => {
     res.cookie("token", null, {
         expires: new Date(Date.now()),
     })
-    res.send("logout successful");
+    res.json({
+        message: "Logout successful"
+    });
 
 })
 module.exports = authRouter;

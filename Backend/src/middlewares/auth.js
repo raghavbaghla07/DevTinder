@@ -7,7 +7,7 @@ const userAuth = async (req, res, next) => {
         // Read the token from the request cookies
         const { token } = req.cookies;
         if (!token) {
-            throw new Error("invalid token");
+            throw new Error("Authentication required");
         }
         // to verify this: 
         const decodedObj = jwt.verify(token, process.env.JWT_SECRET);
@@ -24,7 +24,9 @@ const userAuth = async (req, res, next) => {
         req.user = user;
         next(); // it is called to move to the req handler
     } catch (err) {
-        res.status(400).send("ERROR: " + err.message)
+        res.status(400).json({
+            message: err.message
+        })
     }
 }
 module.exports = {
