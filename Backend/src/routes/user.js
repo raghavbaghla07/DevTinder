@@ -2,10 +2,12 @@ const express = require("express");
 const userRouter = express.Router();
 const { userAuth } = require("../middlewares/auth")
 const ConnectionRequest = require("../models/connectionRequest.js")
+const User = require("../models/user.js")
 
-const USER_SAFE_DATA = "firstName lastName photoUrl"
+const USER_SAFE_DATA = "firstName lastName photoUrl about gender"
+
+
 //get all the pending connection request for loggedInUser
-
 userRouter.get("/user/requests/received", userAuth, async (req, res) => {
     try {
         const loggedInUserId = req.user._id;
@@ -56,4 +58,46 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
             })
     }
 })
+
+userRouter.get("/user/feed", userAuth, async (req, res) => {
+    try {
+        // what we have to avoid:
+        // 1. user own card.
+        // 2. whom we ignnored or already sent req.
+        // 3. our connection
+        //4. who sent us connection req
+
+        const loggedInUser = req.user._id;
+
+        // find all connection request sent or received
+        const connectionRequests = await ConnectionRequest.find({
+            $or: [
+                { fromUserId: loggedInUser._id },
+                { toUserId: loggedInUser._id }
+            ]
+        }).select("fromUserId toUserId")
+
+        const hideUsersFromFeed = new Set();
+        connectionRequests.forEach(req => {
+            hideUsersFromFeed.add(req.fromUserId.toString()),
+                hideUsersFromFeed.add(req.toUserId.toString())
+        })
+        // we will find the unique user and push all of them to set
+
+        const users = await User.find({
+            $and: [
+                { _id: { $nin: Array.from(hideUsersFromFeed) } },
+                { _id: { $ne: loggedInUser._id } }
+            ]
+        }).select(USER_SAFE_DATA)
+
+        res.send(users)
+    } catch (err) {
+        return res.status(400).json({
+            message: err.message
+        })
+
+    }
+})
+
 module.exports = userRouter
