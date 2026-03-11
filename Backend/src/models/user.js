@@ -39,11 +39,7 @@ const userSchema = new mongoose.Schema({
             values: ["male", "female", "others"],
             message: "{VALUE} is not a valid gender type"
         }
-        // validate(value) {
-        //     if (!["male", "female", "others"].includes(value)) {
-        //         throw new Error("gender data not valid")
-        //     }
-        // }
+
     },
     age: {
         type: Number,
@@ -71,7 +67,9 @@ userSchema.methods.getJWT = async function () {
     // * this will NOT work with arrow function
     const user = this;
 
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET,
+    const token = jwt.sign(
+        { _id: user._id },
+        process.env.JWT_SECRET,
         { expiresIn: "1d" }
     );
     return token;

@@ -9,11 +9,11 @@ const userAuth = async (req, res, next) => {
         if (!token) {
             throw new Error("Authentication required");
         }
+
         // to verify this: 
         const decodedObj = jwt.verify(token, process.env.JWT_SECRET);
-
-        // validate the token
         const { _id } = decodedObj;
+
         const user = await User.findById(_id);
 
         // find the user
