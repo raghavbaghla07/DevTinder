@@ -10,8 +10,8 @@ authRouter.post("/signup", async (req, res) => {
         //* 1st step: Validation of data:
         validationSignUpData(req);
 
-        //* 2nd: Encrypt the pass
         const { firstName, lastName, emailId, password } = req.body;
+        //* 2nd: Encrypt the pass
         const passwordHash = await bcrypt.hash(password, 10);
 
         // we are creating a new instance of this mdoel user
@@ -74,7 +74,12 @@ authRouter.post("/login", async (req, res) => {
 })
 
 authRouter.post("/logout", async (req, res) => {
-    res.clearCookie("token");
+    res.clearCookie("token", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "None"
+    });
+
     res.json({
         message: "Logout successful"
     });
