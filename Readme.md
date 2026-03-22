@@ -26,4 +26,9 @@ Route: /profile => profile
 11. CORS ERROR: install cors in backend => add middleware to app.js with configuration origin, credentials: true
 12. whenever we are making API call, pass axios => {withCredentials: true}
 13. install @reduxjs/toolkit and react-redux
-14.
+14. create a store (confihureStore) and then provide it to application on root level (using Provider) => createSlice =>addReducer to store
+15. added redux dev tools in chrome
+16. login, and checked if data is coming properly in store.
+17. Navbar should update as user login
+    (no picture of user or username on navbar initially, and updatea accordingly to user name )
+18. refactor code and added constant file
