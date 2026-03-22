@@ -21,3 +21,4 @@ Route: /profile => profile
 7. Create an Outlet in body component
    it will render all the child component of body in app.js
 8. Create a Footer
+9. login page
