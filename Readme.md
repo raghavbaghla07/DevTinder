@@ -10,7 +10,7 @@ Route: /login => loginPage
 Route: /connections => feed
 Route: /profile => profile
 
-## Project-flow:
+## Project-flow (frontend):
 
 1. create a vite+react application
 2. remove unnecessary code
@@ -32,3 +32,5 @@ Route: /profile => profile
 17. Navbar should update as user login
     (no picture of user or username on navbar initially, and updatea accordingly to user name )
 18. refactor code and added constant file
+19. we should not be able to access other routes without login
+20. if token is not present, redirect to login page
