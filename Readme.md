@@ -22,3 +22,8 @@ Route: /profile => profile
    it will render all the child component of body in app.js
 8. Create a Footer
 9. login page
+10. install axios
+11. CORS ERROR: install cors in backend => add middleware to app.js with configuration origin, credentials: true
+12. whenever we are making API call, pass axios => {withCredentials: true}
+13. install @reduxjs/toolkit and react-redux
+14.
