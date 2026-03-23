@@ -28,7 +28,7 @@ function Navbar() {
 
       {user && (
         <div className="flex items-center gap-2">
-          <div className="form-control "> Welcome, {user.firstName} </div>
+          <div className="form-control "> Welcome, {user?.firstName} </div>
           <div className="dropdown dropdown-end mx-5">
             <div
               tabIndex={0}
@@ -36,7 +36,7 @@ function Navbar() {
               className="btn btn-ghost btn-circle avatar"
             >
               <div className="w-10 rounded-full">
-                <img alt="User photo" src={user.photoURL} />
+                <img alt="User photo" src={user?.photoURL} />
               </div>
             </div>
             <ul

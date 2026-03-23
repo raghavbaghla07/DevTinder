@@ -47,7 +47,7 @@ const userSchema = new mongoose.Schema({
     },
     photoUrl: {
         type: String,
-        default: "https://pngtree.com/so/user-icon",
+        default: "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg",
         validate(value) {
             if (!validator.isURL(value))
                 throw new Error("url not valid")
