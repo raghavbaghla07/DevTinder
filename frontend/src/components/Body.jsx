@@ -31,10 +31,12 @@ const Body = () => {
   }, []);
 
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Navbar />
       {/* we need an outlet here to render all the child routes of body */}
-      <Outlet />
+      <main className="grow">
+        <Outlet />
+      </main>
       <Footer />
     </div>
   );

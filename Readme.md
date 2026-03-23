@@ -34,3 +34,24 @@ Route: /profile => profile
 18. refactor code and added constant file
 19. we should not be able to access other routes without login
 20. if token is not present, redirect to login page
+21. logout
+22. get the feed , and add it in store.
+23. built usercard on feed
+
+# Deployment
+
+1. sign-up on AWS
+2. Launch the instance
+3. open WSL, copy the .pem file in root
+4. Run this command, if necessary, to ensure your key is not publicly viewable.
+   chmod 400 "raghav-secret.pem"
+5. run: ssh -i "raghav-secret.pem" ubuntu@ec2-32-192-40-250.compute-1.amazonaws.com
+6. install nodejs: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+7. activate NVM:
+   After installing, your terminal needs to "see" the new command. You can either restart your terminal or run this to activate it immediately: source ~/.bashrc
+8. nvm install --lts (long term support version of ndoe)
+9. verify:
+   - node -v
+   - npm -v
+10. git clone
+11.
