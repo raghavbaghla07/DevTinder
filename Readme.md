@@ -43,6 +43,8 @@ Route: /profile => profile
 1. sign-up on AWS
 2. Launch the instance
 3. open WSL, copy the .pem file in root
+   - cp raghav-secret.pem ~/
+   - cd ~/
 4. Run this command, if necessary, to ensure your key is not publicly viewable.
    chmod 400 "raghav-secret.pem"
 5. run: ssh -i "raghav-secret.pem" ubuntu@ec2-32-192-40-250.compute-1.amazonaws.com
@@ -54,4 +56,24 @@ Route: /profile => profile
    - node -v
    - npm -v
 10. git clone
-11.
+11. update all system dependencies:
+    - run sudo apt update
+12. install nginx
+    - run sudo apt install nginx
+13. start nginx
+    - sudo systemctl start nginx
+    - sudo systemctl enable nginx
+14. install build
+   - npm run build  
+15. vite not found... install dependencies
+
+
+14. copy code from dist folder to /var/www/html/
+    sudo scp -r dist/* /var/www/html/
+15. Enable port 80
+
+### Backend:
+
+1.  install dependencies
+    - npm i
+2.
